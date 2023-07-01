@@ -9,7 +9,6 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <groupId>com.miker</groupId>
     <artifactId>common</artifactId>
 
     <properties>
@@ -52,6 +51,11 @@
         <dependency>
             <groupId>org.mybatis.spring.boot</groupId>
             <artifactId>mybatis-spring-boot-starter</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
         </dependency>
     </dependencies>
 
