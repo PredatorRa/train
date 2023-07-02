@@ -1,5 +1,6 @@
 package com.miker.train.member.req;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 /**
@@ -9,5 +10,7 @@ import lombok.Data;
 @Data
 public class MemberRegisterReq {
     private Long id;
+
+    @NotBlank(message = "【手机号】不能为空")
     private String mobile;
 }
