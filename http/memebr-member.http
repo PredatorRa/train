@@ -8,3 +8,10 @@ mobile=123
 GET http://localhost:8000/member/member/count
 Accept: application/json
 
+###
+
+POST http://localhost:8000/member/member/sendCode
+Content-Type: application/x-www-form-urlencoded
+
+mobile=12345678910
+

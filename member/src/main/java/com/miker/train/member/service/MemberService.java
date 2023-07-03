@@ -1,6 +1,7 @@
 package com.miker.train.member.service;
 
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.util.RandomUtil;
 import com.miker.train.common.exception.BusinessException;
 import com.miker.train.common.exception.BusinessExceptionEnum;
 import com.miker.train.common.util.SnowUtil;
@@ -8,7 +9,10 @@ import com.miker.train.member.domain.Member;
 import com.miker.train.member.domain.MemberExample;
 import com.miker.train.member.mapper.MemberMapper;
 import com.miker.train.member.req.MemberRegisterReq;
+import com.miker.train.member.req.MemberSendCodeReq;
 import jakarta.annotation.Resource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,6 +23,8 @@ import java.util.List;
  */
 @Service
 public class MemberService {
+    private static final Logger LOG = LoggerFactory.getLogger(MemberService.class);
+
     @Resource
     private MemberMapper memberMapper;
 
@@ -41,5 +47,32 @@ public class MemberService {
         memberMapper.insert(member);
 
         return member.getId();
+    }
+
+    public void sendCode(MemberSendCodeReq req){
+        String phone = req.getMobile();
+        MemberExample memberExample = new MemberExample();
+        memberExample.createCriteria().andMobileEqualTo(phone);
+        List<Member> members = memberMapper.selectByExample(memberExample);
+
+        if(CollectionUtil.isEmpty(members)){
+            LOG.info("手机号未注册");
+            Member member = new Member();
+            member.setId(SnowUtil.getSnowflakeNextId());
+            member.setMobile(phone);
+            memberMapper.insert(member);
+        }else{
+            LOG.info("手机号已注册");
+        }
+
+//        String code = RandomUtil.randomString(4);
+        String code = "8888";
+        LOG.info("生成校验码：{}",code);
+
+        //手机号，短信验证码，有效期，是否已使用，业务类型，发送时间，使用时间
+        LOG.info("校验码保存至数据库");
+
+        LOG.info("校验码服务联动，发送短信");
+
     }
 }
