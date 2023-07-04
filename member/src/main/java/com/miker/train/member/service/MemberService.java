@@ -1,15 +1,18 @@
 package com.miker.train.member.service;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
-import cn.hutool.core.util.RandomUtil;
+import cn.hutool.core.util.ObjectUtil;
 import com.miker.train.common.exception.BusinessException;
 import com.miker.train.common.exception.BusinessExceptionEnum;
 import com.miker.train.common.util.SnowUtil;
 import com.miker.train.member.domain.Member;
 import com.miker.train.member.domain.MemberExample;
 import com.miker.train.member.mapper.MemberMapper;
+import com.miker.train.member.req.MemberLoginReq;
 import com.miker.train.member.req.MemberRegisterReq;
 import com.miker.train.member.req.MemberSendCodeReq;
+import com.miker.train.member.resp.MemberLoginResp;
 import jakarta.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,10 +37,8 @@ public class MemberService {
 
     public long register(MemberRegisterReq req){
         String phone = req.getMobile();
-        MemberExample memberExample = new MemberExample();
-        memberExample.createCriteria().andMobileEqualTo(phone);
-        List<Member> members = memberMapper.selectByExample(memberExample);
-        if(CollectionUtil.isNotEmpty(members)){
+        Member memberDB = selectMemberByMobile(phone);
+        if(ObjectUtil.isNotNull(memberDB)){
             throw new BusinessException(BusinessExceptionEnum.MEMBER_MOBILE_EXIST);
         }
 
@@ -51,11 +52,9 @@ public class MemberService {
 
     public void sendCode(MemberSendCodeReq req){
         String phone = req.getMobile();
-        MemberExample memberExample = new MemberExample();
-        memberExample.createCriteria().andMobileEqualTo(phone);
-        List<Member> members = memberMapper.selectByExample(memberExample);
+        Member memberDB = selectMemberByMobile(phone);
 
-        if(CollectionUtil.isEmpty(members)){
+        if(ObjectUtil.isNull(memberDB)){
             LOG.info("手机号未注册");
             Member member = new Member();
             member.setId(SnowUtil.getSnowflakeNextId());
@@ -74,5 +73,33 @@ public class MemberService {
 
         LOG.info("校验码服务联动，发送短信");
 
+    }
+
+    public MemberLoginResp login(MemberLoginReq req){
+        String phone = req.getMobile();
+        String code = req.getCode();
+
+        Member membersDB = selectMemberByMobile(phone);
+
+        if(ObjectUtil.isNull(membersDB)){
+            throw new BusinessException(BusinessExceptionEnum.MEMBER_MOBILE_NOT_EXIST);
+        }
+
+        if(!"8888".equals(code)){
+            throw new BusinessException(BusinessExceptionEnum.MEMBER_MOBILE_CODE_ERROR);
+        }
+
+        return BeanUtil.copyProperties(membersDB, MemberLoginResp.class);
+    }
+
+    private Member selectMemberByMobile(String mobile) {
+        MemberExample memberExample = new MemberExample();
+        memberExample.createCriteria().andMobileEqualTo(mobile);
+        List<Member> members = memberMapper.selectByExample(memberExample);
+        if(CollectionUtil.isEmpty(members)){
+            return null;
+        }else{
+            return members.get(0);
+        }
     }
 }

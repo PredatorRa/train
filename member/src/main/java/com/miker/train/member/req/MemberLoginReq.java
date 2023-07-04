@@ -4,13 +4,11 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 
-/**
- * @author miker
- * @create 2023-07-01 21:53
- */
 @Data
-public class MemberRegisterReq {
-    private Long id;
+public class MemberLoginReq {
+
+    @NotBlank(message = "【短信验证码】不能为空")
+    private String code;
 
     @NotBlank(message = "【手机号】不能为空")
     @Pattern(regexp = "^1\\d{10}$",message = "手机号码格式错误")
