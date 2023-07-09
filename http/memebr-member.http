@@ -7,10 +7,11 @@ mobile=12345678910
 
 GET http://localhost:8000/member/member/count
 Accept: application/json
+token: 123
 
 ###
 
-POST http://localhost:8000/member/member/sendCode
+POST http://localhost:8000/member/member/send-code
 Content-Type: application/json
 
 {
