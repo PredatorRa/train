@@ -23,7 +23,7 @@
 
         <!-- 配置数据源，需要根据自己的项目修改 -->
         <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
-                        connectionURL="jdbc:mysql://rm-2zel7g0g5w5q090926o.rwlb.rds.aliyuncs.com/train_member?serverTimezone=Asia/Shanghai"
+                        connectionURL="jdbc:mysql://rm-2zes9id46t5463x972o.mysql.rds.aliyuncs.com/train_member?serverTimezone=Asia/Shanghai"
                         userId="train_member"
                         password="Cyq123123">
         </jdbcConnection>
@@ -41,8 +41,8 @@
                              targetPackage="com.miker.train.member.mapper"
                              type="XMLMAPPER"/>
 
-        <table tableName="member" domainObjectName="Member"/>
-        <!--<table tableName="passenger" domainObjectName="Passenger"/>-->
+<!--        <table tableName="member" domainObjectName="Member"/>-->
+        <table tableName="passenger" domainObjectName="Passenger"/>
         <!--<table tableName="ticket" domainObjectName="Ticket"/>-->
     </context>
 </generatorConfiguration>
