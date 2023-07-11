@@ -1,63 +1,41 @@
 <template>
     <a-layout-sider width="200" style="background: #fff">
         <a-menu
+            v-model:selectedKeys="selectedKeys"
             mode="inline"
-            v-model:selectedKeys="selectedKeys2"
-            v-model:openKeys="openKeys"
             :style="{ height: '100%', borderRight: 0 }"
         >
-            <a-sub-menu key="sub1">
-                <template #title>
-              <span>
-                <user-outlined/>
-                subnav 1
-              </span>
-                </template>
-                <a-menu-item key="1">option12</a-menu-item>
-                <a-menu-item key="2">option2</a-menu-item>
-                <a-menu-item key="3">option3</a-menu-item>
-                <a-menu-item key="4">option4</a-menu-item>
-            </a-sub-menu>
-            <a-sub-menu key="sub2">
-                <template #title>
-              <span>
-                <laptop-outlined/>
-                subnav 2
-              </span>
-                </template>
-                <a-menu-item key="5">option5</a-menu-item>
-                <a-menu-item key="6">option6</a-menu-item>
-                <a-menu-item key="7">option7</a-menu-item>
-                <a-menu-item key="8">option8</a-menu-item>
-            </a-sub-menu>
-            <a-sub-menu key="sub3">
-                <template #title>
-              <span>
-                <notification-outlined/>
-                subnav 3
-              </span>
-                </template>
-                <a-menu-item key="9">option9</a-menu-item>
-                <a-menu-item key="10">option10</a-menu-item>
-                <a-menu-item key="11">option11</a-menu-item>
-                <a-menu-item key="12">option12</a-menu-item>
-            </a-sub-menu>
+          <a-menu-item key="/welcome">
+            <router-link to="/welcome">
+              <coffee-outlined /> &nbsp; 欢迎
+            </router-link>
+          </a-menu-item>
+          <a-menu-item key="/passenger">
+            <router-link to="/passenger">
+              <user-outlined /> &nbsp; 乘车人管理
+            </router-link>
+          </a-menu-item>
         </a-menu>
     </a-layout-sider>
 </template>
 
 <script>
-import {defineComponent, ref} from 'vue';
-import {LaptopOutlined, NotificationOutlined, UserOutlined} from "@ant-design/icons-vue";
+import {defineComponent, ref,watch} from 'vue';
+import router from "@/router";
 
 export default defineComponent({
     name: "the-sider-view",
-    components: {UserOutlined, LaptopOutlined, NotificationOutlined},
     setup() {
+      const selectedKeys = ref([]);
+
+      watch(() => router.currentRoute.value.path, (newValue) => {
+        console.log('watch', newValue);
+        selectedKeys.value = [];
+        selectedKeys.value.push(newValue);
+      }, {immediate: true});
 
         return {
-            selectedKeys2: ref(['1']),
-            openKeys: ref(['sub1']),
+          selectedKeys
         };
     },
 });
