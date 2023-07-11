@@ -1,6 +1,8 @@
 package com.miker.train.member.req;
 
-public class PassengerQueryReq {
+import com.miker.train.common.req.PageReq;
+
+public class PassengerQueryReq extends PageReq {
 
     private Long memberId;
 
