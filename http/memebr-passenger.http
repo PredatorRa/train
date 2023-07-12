@@ -8,6 +8,18 @@ token: {{token}}
   "type":"1"
 }
 ###
+POST http://localhost:8000/member/passenger/save
+Content-Type: application/json
+token: {{token}}
+
+{
+  "id": 1678560022612807680,
+  "memberId": 1676258573631492096,
+  "name": "test1",
+  "idCard": "123321",
+  "type": "1"
+}
+###
 
 GET http://localhost:8000/member/passenger/query-list?page=1&size=10
 Accept: application/json
