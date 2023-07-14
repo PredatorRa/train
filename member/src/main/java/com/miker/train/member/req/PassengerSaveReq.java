@@ -2,29 +2,46 @@ package com.miker.train.member.req;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.Date;
 
 public class PassengerSaveReq {
+
+    /**
+     *id
+     **/
     private Long id;
-
+    /**
+     *会员id
+     **/
+    @NotNull(message = "【会员id】不能为空")
     private Long memberId;
-
-    @NotBlank(message = "【名字】不能为空")
+    /**
+     *姓名
+     **/
+    @NotBlank(message = "【姓名】不能为空")
     private String name;
-
+    /**
+     *身份证
+     **/
     @NotBlank(message = "【身份证】不能为空")
     private String idCard;
-
+    /**
+     *旅客类型|枚举[PassengerTypeEnum]
+     **/
     @NotBlank(message = "【旅客类型】不能为空")
     private String type;
-
+    /**
+     *新增时间
+     **/
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date createTime;
-
+    /**
+     *修改时间
+     **/
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date updateTime;
-
     public Long getId() {
         return id;
     }
@@ -32,7 +49,6 @@ public class PassengerSaveReq {
     public void setId(Long id) {
         this.id = id;
     }
-
     public Long getMemberId() {
         return memberId;
     }
@@ -40,7 +56,6 @@ public class PassengerSaveReq {
     public void setMemberId(Long memberId) {
         this.memberId = memberId;
     }
-
     public String getName() {
         return name;
     }
@@ -48,7 +63,6 @@ public class PassengerSaveReq {
     public void setName(String name) {
         this.name = name;
     }
-
     public String getIdCard() {
         return idCard;
     }
@@ -56,7 +70,6 @@ public class PassengerSaveReq {
     public void setIdCard(String idCard) {
         this.idCard = idCard;
     }
-
     public String getType() {
         return type;
     }
@@ -64,7 +77,6 @@ public class PassengerSaveReq {
     public void setType(String type) {
         this.type = type;
     }
-
     public Date getCreateTime() {
         return createTime;
     }
@@ -72,7 +84,6 @@ public class PassengerSaveReq {
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
-
     public Date getUpdateTime() {
         return updateTime;
     }

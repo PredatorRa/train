@@ -8,13 +8,12 @@ import org.dom4j.Node;
 import org.dom4j.io.SAXReader;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ServerGenerator {
     static String serverPath = "[module]/src/main/java/com/miker/train/[module]/";
     static String pomPath = "generator/pom.xml";
+
     static {
         new File(serverPath).mkdirs();
     }
@@ -27,11 +26,11 @@ public class ServerGenerator {
 
         //获取表名、实体名
         SAXReader saxReader = new SAXReader();
-        Document document = saxReader.read("generator/"+generatorPath);
+        Document document = saxReader.read("generator/" + generatorPath);
         Node table = document.selectSingleNode("//table");
         Node tableName = table.selectSingleNode("@tableName");
         Node domainObjectName = table.selectSingleNode("@domainObjectName");
-        System.out.println(tableName.getText()+"/"+domainObjectName.getText());
+        System.out.println(tableName.getText() + "/" + domainObjectName.getText());
 
         Node connectionURL = document.selectSingleNode("//@connectionURL");
         Node userId = document.selectSingleNode("//@userId");
@@ -54,35 +53,49 @@ public class ServerGenerator {
         // 表中文名
         String tableNameCn = DbUtil.getTableComment(tableName.getText());
         List<Field> fieldList = DbUtil.getColumnByTableName(tableName.getText());
-
+        Set<String> typeSet = getFieldJavaTypeSet(fieldList);
         // 组装参数
         Map<String, Object> param = new HashMap<>();
         param.put("Domain", Domain);
         param.put("domain", domain);
         param.put("do_main", do_main);
+        param.put("fieldList",fieldList);
+        param.put("typeSet",typeSet);
+        param.put("tableNameCn",tableNameCn);
         System.out.println("组装参数：" + param);
 
-        gen(Domain,param,"service");
-        gen(Domain,param,"controller");
+        gen(Domain, param, "service","service");
+        gen(Domain, param, "controller","controller");
+        gen(Domain, param, "req","saveReq");
+
     }
 
-    public static void gen(String Domain,Map<String,Object> param,String target) throws Exception {
-        FreemarkerUtil.initConfig(target+".ftl");
-        String toPath = serverPath+target+"/";
+    public static void gen(String Domain, Map<String, Object> param,String packageName, String target) throws Exception {
+        FreemarkerUtil.initConfig(target + ".ftl");
+        String toPath = serverPath + packageName + "/";
         new File(toPath).mkdirs();
-        String Target = target.substring(0,1).toUpperCase()+target.substring(1);
-        String fileName = toPath+Domain+Target+".java";
-        FreemarkerUtil.generator(fileName,param);
+        String Target = target.substring(0, 1).toUpperCase() + target.substring(1);
+        String fileName = toPath + Domain + Target + ".java";
+        FreemarkerUtil.generator(fileName, param);
     }
 
     public static String getGeneratorPath() throws Exception {
         SAXReader saxReader = new SAXReader();
         Map<String, String> map = new HashMap<>();
-        map.put("pom","http://maven.apache.org/POM/4.0.0");
+        map.put("pom", "http://maven.apache.org/POM/4.0.0");
         saxReader.getDocumentFactory().setXPathNamespaceURIs(map);
         Document document = saxReader.read(pomPath);
         Node node = document.selectSingleNode("//pom:configurationFile");
         System.out.println(node.getText());
         return node.getText();
+    }
+
+    public static Set<String> getFieldJavaTypeSet(List<Field> fieldList) {
+        Set<String> set = new HashSet<>();
+        for (Field field:fieldList){
+            String javaType = field.getJavaType();
+            set.add(javaType);
+        }
+        return set;
     }
 }
