@@ -27,7 +27,7 @@ public class PassengerService {
     private static final Logger LOG = LoggerFactory.getLogger(PassengerService.class);
 
     @Resource
-    PassengerMapper passengerMapper;
+    private PassengerMapper passengerMapper;
 
     public void save(PassengerSaveReq req) {
         DateTime now = DateTime.now();
@@ -55,17 +55,17 @@ public class PassengerService {
         LOG.info("查询页码：{}", req.getPage());
         LOG.info("每页条数：{}", req.getSize());
         PageHelper.startPage(req.getPage(), req.getSize());
-        List<Passenger> passengers = passengerMapper.selectByExample(passengerExample);
+        List<Passenger> passengerList = passengerMapper.selectByExample(passengerExample);
 
-        PageInfo<Passenger> pageInfo = new PageInfo<>(passengers);
+        PageInfo<Passenger> pageInfo = new PageInfo<>(passengerList);
         LOG.info("总行数：{}", pageInfo.getTotal());
         LOG.info("总页数：{}", pageInfo.getPages());
 
-        List<PassengerQueryResp> list = BeanUtil.copyToList(passengers, PassengerQueryResp.class);
+        List<PassengerQueryResp> list = BeanUtil.copyToList(passengerList, PassengerQueryResp.class);
 
         PageResp<PassengerQueryResp> pageResp = new PageResp<>();
-        pageResp.setList(list);
         pageResp.setTotal(pageInfo.getTotal());
+        pageResp.setList(list);
         return pageResp;
     }
 
