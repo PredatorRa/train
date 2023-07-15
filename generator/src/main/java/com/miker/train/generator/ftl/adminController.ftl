@@ -1,6 +1,6 @@
-package com.miker.train.${module}.controller;
+package com.miker.train.${module}.controller.admin;
 
-import com.miker.train.common.context.Login${module}Context;
+import com.miker.train.common.context.LoginMemberContext;
 import com.miker.train.common.resp.CommonResp;
 import com.miker.train.common.resp.PageResp;
 import com.miker.train.${module}.req.${Domain}QueryReq;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/${do_main}")
-public class ${Domain}Controller {
+public class ${Domain}AdminController {
 
     @Resource
     private ${Domain}Service ${domain}Service;

@@ -1,6 +1,6 @@
-package com.miker.train.business.controller;
+package com.miker.train.business.controller.admin;
 
-import com.miker.train.common.context.LoginbusinessContext;
+import com.miker.train.common.context.LoginMemberContext;
 import com.miker.train.common.resp.CommonResp;
 import com.miker.train.common.resp.PageResp;
 import com.miker.train.business.req.StationQueryReq;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/station")
-public class StationController {
+public class StationAdminController {
 
     @Resource
     private StationService stationService;
