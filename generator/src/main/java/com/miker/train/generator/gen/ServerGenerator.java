@@ -1,4 +1,4 @@
-package com.miker.train.generator.server;
+package com.miker.train.generator.gen;
 
 import com.miker.train.generator.util.DbUtil;
 import com.miker.train.generator.util.Field;
