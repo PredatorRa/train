@@ -5,7 +5,7 @@
       <a-button type="primary" @click="onAdd">新增</a-button>
     </a-space>
   </p>
-  <a-table :dataSource="passengers"
+  <a-table :dataSource="stations"
            :columns="columns"
            :pagination="pagination"
            @change="handleTableChange"
@@ -22,33 +22,19 @@
           <a @click="onEdit(record)">编辑</a>
         </a-space>
       </template>
-      <template v-else-if="column.dataIndex === 'type'">
-        <span v-for="item in PASSENGER_TYPE_ARRAY" :key="item.key">
-          <span v-if="item.key === record.type">
-            {{item.value}}
-          </span>
-        </span>
-      </template>
     </template>
   </a-table>
-  <a-modal v-model:visible="visible" title="乘车人" @ok="handleOk"
+  <a-modal v-model:visible="visible" title="车站" @ok="handleOk"
            ok-text="确认" cancel-text="取消">
-    <a-form :model="passenger" :label-col="{span: 4}" :wrapper-col="{ span: 20 }">
-      <a-form-item label="会员id">
-        <a-input v-model:value="passenger.memberId" />
+    <a-form :model="station" :label-col="{span: 4}" :wrapper-col="{ span: 20 }">
+      <a-form-item label="站名">
+        <a-input v-model:value="station.name" />
       </a-form-item>
-      <a-form-item label="姓名">
-        <a-input v-model:value="passenger.name" />
+      <a-form-item label="站名拼音">
+        <a-input v-model:value="station.namePinyin" />
       </a-form-item>
-      <a-form-item label="身份证">
-        <a-input v-model:value="passenger.idCard" />
-      </a-form-item>
-      <a-form-item label="旅客类型">
-        <a-select v-model:value="passenger.type">
-          <a-select-option v-for="item in PASSENGER_TYPE_ARRAY" :key="item.key" :value="item.key">
-            {{item.value}}
-          </a-select-option>
-        </a-select>
+      <a-form-item label="站名拼音首字母">
+        <a-input v-model:value="station.namePy" />
       </a-form-item>
     </a-form>
   </a-modal>
@@ -60,20 +46,18 @@ import {notification} from "ant-design-vue";
 import axios from "axios";
 
 export default defineComponent({
-  name: "passenger-view",
+  name: "station-view",
   setup() {
-    const PASSENGER_TYPE_ARRAY = window.PASSENGER_TYPE_ARRAY;
     const visible = ref(false);
-    let passenger = ref({
+    let station = ref({
       id: undefined,
-      memberId: undefined,
       name: undefined,
-      idCard: undefined,
-      type: undefined,
+      namePinyin: undefined,
+      namePy: undefined,
       createTime: undefined,
       updateTime: undefined,
     });
-    const passengers = ref([]);
+    const stations = ref([]);
     // 分页的三个属性名是固定的
     const pagination = ref({
       total: 0,
@@ -83,24 +67,19 @@ export default defineComponent({
     let loading = ref(false);
     const columns = [
     {
-      title: '会员id',
-      dataIndex: 'memberId',
-      key: 'memberId',
-    },
-    {
-      title: '姓名',
+      title: '站名',
       dataIndex: 'name',
       key: 'name',
     },
     {
-      title: '身份证',
-      dataIndex: 'idCard',
-      key: 'idCard',
+      title: '站名拼音',
+      dataIndex: 'namePinyin',
+      key: 'namePinyin',
     },
     {
-      title: '旅客类型',
-      dataIndex: 'type',
-      key: 'type',
+      title: '站名拼音首字母',
+      dataIndex: 'namePy',
+      key: 'namePy',
     },
     {
       title: '操作',
@@ -109,17 +88,17 @@ export default defineComponent({
     ];
 
     const onAdd = () => {
-      passenger.value = {};
+      station.value = {};
       visible.value = true;
     };
 
     const onEdit = (record) => {
-      passenger.value = window.Tool.copy(record);
+      station.value = window.Tool.copy(record);
       visible.value = true;
     };
 
     const onDelete = (record) => {
-      axios.delete("/member/passenger/delete/" + record.id).then((response) => {
+      axios.delete("/business/admin/station/delete/" + record.id).then((response) => {
         const data = response.data;
         if (data.success) {
           notification.success({description: "删除成功！"});
@@ -134,7 +113,7 @@ export default defineComponent({
     };
 
     const handleOk = () => {
-      axios.post("/member/passenger/save", passenger.value).then((response) => {
+      axios.post("/business/station/save", station.value).then((response) => {
         let data = response.data;
         if (data.success) {
           notification.success({description: "保存成功！"});
@@ -157,7 +136,7 @@ export default defineComponent({
         };
       }
       loading.value = true;
-      axios.get("/member/passenger/query-list", {
+      axios.get("/business/station/query-list", {
         params: {
           page: param.page,
           size: param.size
@@ -166,7 +145,7 @@ export default defineComponent({
         loading.value = false;
         let data = response.data;
         if (data.success) {
-          passengers.value = data.content.list;
+          stations.value = data.content.list;
           // 设置分页控件的值
           pagination.value.current = param.page;
           pagination.value.total = data.content.total;
@@ -192,10 +171,9 @@ export default defineComponent({
     });
 
     return {
-      PASSENGER_TYPE_ARRAY,
-      passenger,
+      station,
       visible,
-      passengers,
+      stations,
       pagination,
       columns,
       handleTableChange,
