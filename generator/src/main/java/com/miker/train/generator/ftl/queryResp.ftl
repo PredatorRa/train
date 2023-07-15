@@ -1,5 +1,7 @@
-package com.miker.train.${module}.req;
+package com.miker.train.${module}.resp;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 <#list typeSet as type>
 <#if type=='Date'>
 import java.util.Date;
@@ -10,26 +12,26 @@ import java.math.BigDecimal;
 </#if>
 </#list>
 
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.NotBlank;
-
-public class ${Domain}SaveReq {
+public class ${Domain}QueryResp {
 
     <#list fieldList as field>
     /**
-     *${field.comment}
-     **/
+     * ${field.comment}
+     */
     <#if field.javaType=='Date'>
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
-    </#if>
-    <#if !field.nullAble && field.name!='id' && field.nameHump!='createTime' && field.nameHump!='updateTime'>
-        <#if field.javaType=='String'>
-    @NotBlank(message = "【${field.nameCn}】不能为空")
-        <#else >
-    @NotNull(message = "【${field.nameCn}】不能为空")
+        <#if field.type=='time'>
+    @JsonFormat(pattern = "HH:mm:ss",timezone = "GMT+8")
+        <#elseif field.type=='date'>
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
+        <#else>
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
         </#if>
     </#if>
+    <#if field.name=='id' || field.name?ends_with('_id')>
+    @JsonSerialize(using= ToStringSerializer.class)
+    </#if>
     private ${field.javaType} ${field.nameHump};
+
     </#list>
     <#list fieldList as field>
     public ${field.javaType} get${field.nameBigHump}() {
@@ -39,8 +41,8 @@ public class ${Domain}SaveReq {
     public void set${field.nameBigHump}(${field.javaType} ${field.nameHump}) {
         this.${field.nameHump} = ${field.nameHump};
     }
-    </#list>
 
+    </#list>
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

@@ -1,12 +1,12 @@
-package com.miker.train.member.controller;
+package com.miker.train.${module}.controller;
 
-import com.miker.train.common.context.LoginMemberContext;
+import com.miker.train.common.context.Login${module}Context;
 import com.miker.train.common.resp.CommonResp;
 import com.miker.train.common.resp.PageResp;
-import com.miker.train.member.req.${Domain}QueryReq;
-import com.miker.train.member.req.${Domain}SaveReq;
-import com.miker.train.member.resp.${Domain}QueryResp;
-import com.miker.train.member.service.${Domain}Service;
+import com.miker.train.${module}.req.${Domain}QueryReq;
+import com.miker.train.${module}.req.${Domain}SaveReq;
+import com.miker.train.${module}.resp.${Domain}QueryResp;
+import com.miker.train.${module}.service.${Domain}Service;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +26,7 @@ public class ${Domain}Controller {
 
     @GetMapping("/query-list")
     public CommonResp<PageResp<${Domain}QueryResp>> queryList(@Valid ${Domain}QueryReq req) {
-        req.setMemberId(LoginMemberContext.getId());
+        req.set${module}Id(Login${module}Context.getId());
         PageResp<${Domain}QueryResp> list = ${domain}Service.queryList(req);
         return new CommonResp<>(list);
     }
