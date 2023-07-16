@@ -35,8 +35,9 @@ public class TrainSaveReq {
     /**
      *出发时间
      **/
-    @NotBlank(message = "【出发时间】不能为空")
-    private String startTime;
+    @JsonFormat(pattern = "HH:mm:ss",timezone = "GMT+8")
+    @NotNull(message = "【出发时间】不能为空")
+    private Date startTime;
     /**
      *终点站
      **/
@@ -50,17 +51,18 @@ public class TrainSaveReq {
     /**
      *到站时间
      **/
-    @NotBlank(message = "【到站时间】不能为空")
-    private String endTime;
+    @JsonFormat(pattern = "HH:mm:ss",timezone = "GMT+8")
+    @NotNull(message = "【到站时间】不能为空")
+    private Date endTime;
     /**
      *新增时间
      **/
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date createTime;
     /**
      *修改时间
      **/
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date updateTime;
     public Long getId() {
         return id;
@@ -97,11 +99,11 @@ public class TrainSaveReq {
     public void setStartPinyin(String startPinyin) {
         this.startPinyin = startPinyin;
     }
-    public String getStartTime() {
+    public Date getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(String startTime) {
+    public void setStartTime(Date startTime) {
         this.startTime = startTime;
     }
     public String getEnd() {
@@ -118,11 +120,11 @@ public class TrainSaveReq {
     public void setEndPinyin(String endPinyin) {
         this.endPinyin = endPinyin;
     }
-    public String getEndTime() {
+    public Date getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(String endTime) {
+    public void setEndTime(Date endTime) {
         this.endTime = endTime;
     }
     public Date getCreateTime() {

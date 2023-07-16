@@ -20,7 +20,13 @@ public class ${Domain}SaveReq {
      *${field.comment}
      **/
     <#if field.javaType=='Date'>
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+        <#if field.type=='time'>
+    @JsonFormat(pattern = "HH:mm:ss",timezone = "GMT+8")
+        <#elseif field.type=='date'>
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
+        <#else>
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+        </#if>
     </#if>
     <#if !field.nullAble && field.name!='id' && field.nameHump!='createTime' && field.nameHump!='updateTime'>
         <#if field.javaType=='String'>
