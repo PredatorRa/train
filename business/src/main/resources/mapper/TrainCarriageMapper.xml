@@ -8,7 +8,7 @@
     <result column="seat_type" jdbcType="CHAR" property="seatType" />
     <result column="seat_count" jdbcType="INTEGER" property="seatCount" />
     <result column="row_count" jdbcType="INTEGER" property="rowCount" />
-    <result column="column_count" jdbcType="INTEGER" property="columnCount" />
+    <result column="col_count" jdbcType="INTEGER" property="colCount" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>
@@ -71,7 +71,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, train_code, `index`, seat_type, seat_count, `row_count`, column_count, create_time, 
+    id, train_code, `index`, seat_type, seat_count, `row_count`, col_count, create_time, 
     update_time
   </sql>
   <select id="selectByExample" parameterType="com.miker.train.business.domain.TrainCarriageExample" resultMap="BaseResultMap">
@@ -107,11 +107,11 @@
   <insert id="insert" parameterType="com.miker.train.business.domain.TrainCarriage">
     insert into train_carriage (id, train_code, `index`, 
       seat_type, seat_count, `row_count`, 
-      column_count, create_time, update_time
+      col_count, create_time, update_time
       )
     values (#{id,jdbcType=BIGINT}, #{trainCode,jdbcType=VARCHAR}, #{index,jdbcType=INTEGER}, 
       #{seatType,jdbcType=CHAR}, #{seatCount,jdbcType=INTEGER}, #{rowCount,jdbcType=INTEGER}, 
-      #{columnCount,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+      #{colCount,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.miker.train.business.domain.TrainCarriage">
@@ -135,8 +135,8 @@
       <if test="rowCount != null">
         `row_count`,
       </if>
-      <if test="columnCount != null">
-        column_count,
+      <if test="colCount != null">
+        col_count,
       </if>
       <if test="createTime != null">
         create_time,
@@ -164,8 +164,8 @@
       <if test="rowCount != null">
         #{rowCount,jdbcType=INTEGER},
       </if>
-      <if test="columnCount != null">
-        #{columnCount,jdbcType=INTEGER},
+      <if test="colCount != null">
+        #{colCount,jdbcType=INTEGER},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
@@ -202,8 +202,8 @@
       <if test="record.rowCount != null">
         `row_count` = #{record.rowCount,jdbcType=INTEGER},
       </if>
-      <if test="record.columnCount != null">
-        column_count = #{record.columnCount,jdbcType=INTEGER},
+      <if test="record.colCount != null">
+        col_count = #{record.colCount,jdbcType=INTEGER},
       </if>
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
@@ -224,7 +224,7 @@
       seat_type = #{record.seatType,jdbcType=CHAR},
       seat_count = #{record.seatCount,jdbcType=INTEGER},
       `row_count` = #{record.rowCount,jdbcType=INTEGER},
-      column_count = #{record.columnCount,jdbcType=INTEGER},
+      col_count = #{record.colCount,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
@@ -249,8 +249,8 @@
       <if test="rowCount != null">
         `row_count` = #{rowCount,jdbcType=INTEGER},
       </if>
-      <if test="columnCount != null">
-        column_count = #{columnCount,jdbcType=INTEGER},
+      <if test="colCount != null">
+        col_count = #{colCount,jdbcType=INTEGER},
       </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -268,7 +268,7 @@
       seat_type = #{seatType,jdbcType=CHAR},
       seat_count = #{seatCount,jdbcType=INTEGER},
       `row_count` = #{rowCount,jdbcType=INTEGER},
-      column_count = #{columnCount,jdbcType=INTEGER},
+      col_count = #{colCount,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}

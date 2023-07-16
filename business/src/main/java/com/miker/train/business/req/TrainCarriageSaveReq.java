@@ -18,9 +18,9 @@ public class TrainCarriageSaveReq {
     @NotBlank(message = "【车次编号】不能为空")
     private String trainCode;
     /**
-     *箱号
+     *厢号
      **/
-    @NotNull(message = "【箱号】不能为空")
+    @NotNull(message = "【厢号】不能为空")
     private Integer index;
     /**
      *座位类型|枚举[SeatTypeEnum]
@@ -41,7 +41,7 @@ public class TrainCarriageSaveReq {
      *列数
      **/
     @NotNull(message = "【列数】不能为空")
-    private Integer columnCount;
+    private Integer colCount;
     /**
      *新增时间
      **/
@@ -94,12 +94,12 @@ public class TrainCarriageSaveReq {
     public void setRowCount(Integer rowCount) {
         this.rowCount = rowCount;
     }
-    public Integer getColumnCount() {
-        return columnCount;
+    public Integer getColCount() {
+        return colCount;
     }
 
-    public void setColumnCount(Integer columnCount) {
-        this.columnCount = columnCount;
+    public void setColCount(Integer colCount) {
+        this.colCount = colCount;
     }
     public Date getCreateTime() {
         return createTime;
@@ -128,7 +128,7 @@ public class TrainCarriageSaveReq {
         sb.append(", seatType=").append(seatType);
         sb.append(", seatCount=").append(seatCount);
         sb.append(", rowCount=").append(rowCount);
-        sb.append(", columnCount=").append(columnCount);
+        sb.append(", colCount=").append(colCount);
         sb.append(", createTime=").append(createTime);
         sb.append(", updateTime=").append(updateTime);
         sb.append("]");

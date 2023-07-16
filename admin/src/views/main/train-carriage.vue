@@ -31,13 +31,13 @@
       </template>
     </template>
   </a-table>
-  <a-modal v-model:visible="visible" title="火车车箱" @ok="handleOk"
+  <a-modal v-model:visible="visible" title="火车车厢" @ok="handleOk"
            ok-text="确认" cancel-text="取消">
     <a-form :model="trainCarriage" :label-col="{span: 4}" :wrapper-col="{ span: 20 }">
       <a-form-item label="车次编号">
         <a-input v-model:value="trainCarriage.trainCode" />
       </a-form-item>
-      <a-form-item label="箱号">
+      <a-form-item label="厢号">
         <a-input v-model:value="trainCarriage.index" />
       </a-form-item>
       <a-form-item label="座位类型">
@@ -54,7 +54,7 @@
         <a-input v-model:value="trainCarriage.rowCount" />
       </a-form-item>
       <a-form-item label="列数">
-        <a-input v-model:value="trainCarriage.columnCount" />
+        <a-input v-model:value="trainCarriage.colCount" />
       </a-form-item>
     </a-form>
   </a-modal>
@@ -77,7 +77,7 @@ export default defineComponent({
       seatType: undefined,
       seatCount: undefined,
       rowCount: undefined,
-      columnCount: undefined,
+      colCount: undefined,
       createTime: undefined,
       updateTime: undefined,
     });
@@ -96,7 +96,7 @@ export default defineComponent({
       key: 'trainCode',
     },
     {
-      title: '箱号',
+      title: '厢号',
       dataIndex: 'index',
       key: 'index',
     },
@@ -117,8 +117,8 @@ export default defineComponent({
     },
     {
       title: '列数',
-      dataIndex: 'columnCount',
-      key: 'columnCount',
+      dataIndex: 'colCount',
+      key: 'colCount',
     },
     {
       title: '操作',

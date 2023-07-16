@@ -485,63 +485,63 @@ public class TrainCarriageExample {
             return (Criteria) this;
         }
 
-        public Criteria andColumnCountIsNull() {
-            addCriterion("column_count is null");
+        public Criteria andColCountIsNull() {
+            addCriterion("col_count is null");
             return (Criteria) this;
         }
 
-        public Criteria andColumnCountIsNotNull() {
-            addCriterion("column_count is not null");
+        public Criteria andColCountIsNotNull() {
+            addCriterion("col_count is not null");
             return (Criteria) this;
         }
 
-        public Criteria andColumnCountEqualTo(Integer value) {
-            addCriterion("column_count =", value, "columnCount");
+        public Criteria andColCountEqualTo(Integer value) {
+            addCriterion("col_count =", value, "colCount");
             return (Criteria) this;
         }
 
-        public Criteria andColumnCountNotEqualTo(Integer value) {
-            addCriterion("column_count <>", value, "columnCount");
+        public Criteria andColCountNotEqualTo(Integer value) {
+            addCriterion("col_count <>", value, "colCount");
             return (Criteria) this;
         }
 
-        public Criteria andColumnCountGreaterThan(Integer value) {
-            addCriterion("column_count >", value, "columnCount");
+        public Criteria andColCountGreaterThan(Integer value) {
+            addCriterion("col_count >", value, "colCount");
             return (Criteria) this;
         }
 
-        public Criteria andColumnCountGreaterThanOrEqualTo(Integer value) {
-            addCriterion("column_count >=", value, "columnCount");
+        public Criteria andColCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("col_count >=", value, "colCount");
             return (Criteria) this;
         }
 
-        public Criteria andColumnCountLessThan(Integer value) {
-            addCriterion("column_count <", value, "columnCount");
+        public Criteria andColCountLessThan(Integer value) {
+            addCriterion("col_count <", value, "colCount");
             return (Criteria) this;
         }
 
-        public Criteria andColumnCountLessThanOrEqualTo(Integer value) {
-            addCriterion("column_count <=", value, "columnCount");
+        public Criteria andColCountLessThanOrEqualTo(Integer value) {
+            addCriterion("col_count <=", value, "colCount");
             return (Criteria) this;
         }
 
-        public Criteria andColumnCountIn(List<Integer> values) {
-            addCriterion("column_count in", values, "columnCount");
+        public Criteria andColCountIn(List<Integer> values) {
+            addCriterion("col_count in", values, "colCount");
             return (Criteria) this;
         }
 
-        public Criteria andColumnCountNotIn(List<Integer> values) {
-            addCriterion("column_count not in", values, "columnCount");
+        public Criteria andColCountNotIn(List<Integer> values) {
+            addCriterion("col_count not in", values, "colCount");
             return (Criteria) this;
         }
 
-        public Criteria andColumnCountBetween(Integer value1, Integer value2) {
-            addCriterion("column_count between", value1, value2, "columnCount");
+        public Criteria andColCountBetween(Integer value1, Integer value2) {
+            addCriterion("col_count between", value1, value2, "colCount");
             return (Criteria) this;
         }
 
-        public Criteria andColumnCountNotBetween(Integer value1, Integer value2) {
-            addCriterion("column_count not between", value1, value2, "columnCount");
+        public Criteria andColCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("col_count not between", value1, value2, "colCount");
             return (Criteria) this;
         }
 
