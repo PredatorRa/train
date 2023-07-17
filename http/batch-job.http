@@ -53,3 +53,13 @@ Content-Type: application/json
 "name": "com.miker.train.batch.job.TestJob",
 "jobGroupName": "default"
 }
+
+###
+
+POST http://localhost:8000/batch/admin/job/run
+Content-Type: application/json
+
+{
+  "name": "com.miker.train.batch.job.DailyTrainJob",
+  "jobGroupName": "default"
+}
