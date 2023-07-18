@@ -8,11 +8,11 @@
     <result column="start" jdbcType="VARCHAR" property="start" />
     <result column="start_pinyin" jdbcType="VARCHAR" property="startPinyin" />
     <result column="start_time" jdbcType="TIME" property="startTime" />
-    <result column="start_index" jdbcType="TINYINT" property="startIndex" />
+    <result column="start_index" jdbcType="INTEGER" property="startIndex" />
     <result column="end" jdbcType="VARCHAR" property="end" />
     <result column="end_pinyin" jdbcType="VARCHAR" property="endPinyin" />
     <result column="end_time" jdbcType="TIME" property="endTime" />
-    <result column="end_index" jdbcType="TINYINT" property="endIndex" />
+    <result column="end_index" jdbcType="INTEGER" property="endIndex" />
     <result column="ydz" jdbcType="INTEGER" property="ydz" />
     <result column="ydz_price" jdbcType="DECIMAL" property="ydzPrice" />
     <result column="edz" jdbcType="INTEGER" property="edz" />
@@ -127,8 +127,8 @@
       create_time, update_time)
     values (#{id,jdbcType=BIGINT}, #{date,jdbcType=DATE}, #{trainCode,jdbcType=VARCHAR}, 
       #{start,jdbcType=VARCHAR}, #{startPinyin,jdbcType=VARCHAR}, #{startTime,jdbcType=TIME}, 
-      #{startIndex,jdbcType=TINYINT}, #{end,jdbcType=VARCHAR}, #{endPinyin,jdbcType=VARCHAR}, 
-      #{endTime,jdbcType=TIME}, #{endIndex,jdbcType=TINYINT}, #{ydz,jdbcType=INTEGER}, 
+      #{startIndex,jdbcType=INTEGER}, #{end,jdbcType=VARCHAR}, #{endPinyin,jdbcType=VARCHAR}, 
+      #{endTime,jdbcType=TIME}, #{endIndex,jdbcType=INTEGER}, #{ydz,jdbcType=INTEGER}, 
       #{ydzPrice,jdbcType=DECIMAL}, #{edz,jdbcType=INTEGER}, #{edzPrice,jdbcType=DECIMAL}, 
       #{rw,jdbcType=INTEGER}, #{rwPrice,jdbcType=DECIMAL}, #{yw,jdbcType=INTEGER}, #{ywPrice,jdbcType=DECIMAL}, 
       #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
@@ -220,7 +220,7 @@
         #{startTime,jdbcType=TIME},
       </if>
       <if test="startIndex != null">
-        #{startIndex,jdbcType=TINYINT},
+        #{startIndex,jdbcType=INTEGER},
       </if>
       <if test="end != null">
         #{end,jdbcType=VARCHAR},
@@ -232,7 +232,7 @@
         #{endTime,jdbcType=TIME},
       </if>
       <if test="endIndex != null">
-        #{endIndex,jdbcType=TINYINT},
+        #{endIndex,jdbcType=INTEGER},
       </if>
       <if test="ydz != null">
         #{ydz,jdbcType=INTEGER},
@@ -294,7 +294,7 @@
         start_time = #{record.startTime,jdbcType=TIME},
       </if>
       <if test="record.startIndex != null">
-        start_index = #{record.startIndex,jdbcType=TINYINT},
+        start_index = #{record.startIndex,jdbcType=INTEGER},
       </if>
       <if test="record.end != null">
         `end` = #{record.end,jdbcType=VARCHAR},
@@ -306,7 +306,7 @@
         end_time = #{record.endTime,jdbcType=TIME},
       </if>
       <if test="record.endIndex != null">
-        end_index = #{record.endIndex,jdbcType=TINYINT},
+        end_index = #{record.endIndex,jdbcType=INTEGER},
       </if>
       <if test="record.ydz != null">
         ydz = #{record.ydz,jdbcType=INTEGER},
@@ -351,11 +351,11 @@
       `start` = #{record.start,jdbcType=VARCHAR},
       start_pinyin = #{record.startPinyin,jdbcType=VARCHAR},
       start_time = #{record.startTime,jdbcType=TIME},
-      start_index = #{record.startIndex,jdbcType=TINYINT},
+      start_index = #{record.startIndex,jdbcType=INTEGER},
       `end` = #{record.end,jdbcType=VARCHAR},
       end_pinyin = #{record.endPinyin,jdbcType=VARCHAR},
       end_time = #{record.endTime,jdbcType=TIME},
-      end_index = #{record.endIndex,jdbcType=TINYINT},
+      end_index = #{record.endIndex,jdbcType=INTEGER},
       ydz = #{record.ydz,jdbcType=INTEGER},
       ydz_price = #{record.ydzPrice,jdbcType=DECIMAL},
       edz = #{record.edz,jdbcType=INTEGER},
@@ -389,7 +389,7 @@
         start_time = #{startTime,jdbcType=TIME},
       </if>
       <if test="startIndex != null">
-        start_index = #{startIndex,jdbcType=TINYINT},
+        start_index = #{startIndex,jdbcType=INTEGER},
       </if>
       <if test="end != null">
         `end` = #{end,jdbcType=VARCHAR},
@@ -401,7 +401,7 @@
         end_time = #{endTime,jdbcType=TIME},
       </if>
       <if test="endIndex != null">
-        end_index = #{endIndex,jdbcType=TINYINT},
+        end_index = #{endIndex,jdbcType=INTEGER},
       </if>
       <if test="ydz != null">
         ydz = #{ydz,jdbcType=INTEGER},
@@ -443,11 +443,11 @@
       `start` = #{start,jdbcType=VARCHAR},
       start_pinyin = #{startPinyin,jdbcType=VARCHAR},
       start_time = #{startTime,jdbcType=TIME},
-      start_index = #{startIndex,jdbcType=TINYINT},
+      start_index = #{startIndex,jdbcType=INTEGER},
       `end` = #{end,jdbcType=VARCHAR},
       end_pinyin = #{endPinyin,jdbcType=VARCHAR},
       end_time = #{endTime,jdbcType=TIME},
-      end_index = #{endIndex,jdbcType=TINYINT},
+      end_index = #{endIndex,jdbcType=INTEGER},
       ydz = #{ydz,jdbcType=INTEGER},
       ydz_price = #{ydzPrice,jdbcType=DECIMAL},
       edz = #{edz,jdbcType=INTEGER},
