@@ -98,6 +98,7 @@
             </div>
             <br/>
             最终购票：{{tickets}}
+            最终选座：{{chooseSeatObj}}
         </div>
     </a-modal>
 </template>
@@ -149,6 +150,7 @@ export default defineComponent({
         //   passengerName: "张三",
         //   passengerIdCard: "12323132132",
         //   seatTypeCode: "1"
+        //   seat: "C1"
         // }
         const tickets = ref([]);
         const PASSENGER_TYPE_ARRAY = window.PASSENGER_TYPE_ARRAY;
@@ -181,6 +183,7 @@ export default defineComponent({
         // }
         const chooseSeatObj = ref({});
         watch(() => SEAT_COL_ARRAY.value, () => {
+            chooseSeatObj.value = {};
             for (let i = 1; i <= 2; i++) {
                 SEAT_COL_ARRAY.value.forEach((item) => {
                     chooseSeatObj.value[item.code + i] = false;
