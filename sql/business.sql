@@ -97,7 +97,7 @@ create table `daily_train_station` (
                                        `id` bigint not null comment 'id',
                                        `date` date not null comment '日期',
                                        `train_code` varchar(20) not null comment '车次编号',
-                                       `index` int not null comment '站序',
+                                       `index` int not null comment '站序|第一站是0',
                                        `name` varchar(20) not null comment '站名',
                                        `name_pinyin` varchar(50) not null comment '站名拼音',
                                        `in_time` time comment '进站时间',
