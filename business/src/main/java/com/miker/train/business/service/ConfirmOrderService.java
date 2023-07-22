@@ -199,7 +199,7 @@ public class ConfirmOrderService {
             // 为会员增加购票记录
             // 更新确认订单为成功
 
-        afterConfirmOrderService.afterDoConfirm(finalSeatList);
+        afterConfirmOrderService.afterDoConfirm(dailyTrainTicket,finalSeatList);
 
     }
 
