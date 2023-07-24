@@ -11,8 +11,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
-import java.util.List;
-
 /**
  * @author miker
  * @create 2023-07-09 21:19
@@ -27,6 +25,7 @@ public class LoginMemberFilter implements GlobalFilter, Ordered {
 
         //排除不需要拦截的请求
         if(path.contains("/admin")
+                || path.contains("/redis")
                 || path.contains("/hello")
                 ||path.contains("member/member/login")
                 ||path.contains("member/member/send-code")){
