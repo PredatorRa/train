@@ -1,0 +1,20 @@
+POST http://localhost:8000/business/confirm-order/do
+Content-Type: application/json
+token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYmYiOjE2ODM3NzQzNjYsIm1vYmlsZSI6IjEzMDAwMDAwMDAwIiwiaWQiOjE2MzI1NzAzOTk2MjU3MTE2MTYsImV4cCI6MTY4Mzg2MDc2NiwiaWF0IjoxNjgzNzc0MzY2fQ.fs56BiE7keT37xeAACinG7spvqPxvDp7KMOUxvPGNuU
+
+{
+  "dailyTrainTicketId": "1682670830405947392",
+  "date": "2023-07-31",
+  "trainCode": "G1",
+  "start": "上海",
+  "end": "武汉",
+  "tickets": [{
+    "passengerId": "1680288727685009408",
+    "passengerType": "1",
+    "seatTypeCode": "1",
+    "passengerName": "1",
+    "passengerIdCard": "2",
+    "seat": null
+  }]
+}
+###
