@@ -110,7 +110,7 @@
           <boolProp name="LoopController.continue_forever">false</boolProp>
           <stringProp name="LoopController.loops">1</stringProp>
         </elementProp>
-        <stringProp name="ThreadGroup.num_threads">500</stringProp>
+        <stringProp name="ThreadGroup.num_threads">100</stringProp>
         <stringProp name="ThreadGroup.ramp_time">1</stringProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
         <stringProp name="ThreadGroup.duration"></stringProp>
@@ -132,7 +132,7 @@
 	&quot;end&quot;: &quot;武汉&quot;,&#xd;
 	&quot;tickets&quot;: [{&#xd;
 		&quot;passengerId&quot;: &quot;1680288727685009408&quot;,&#xd;
-		&quot;passengerType&quot;: &quot;1&quot;,&#xd;
+		&quot;passengerType&quot;: &quot;2&quot;,&#xd;
 		&quot;seatTypeCode&quot;: &quot;1&quot;,&#xd;
 		&quot;passengerName&quot;: &quot;1&quot;,&#xd;
 		&quot;passengerIdCard&quot;: &quot;2&quot;,&#xd;
