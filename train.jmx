@@ -166,7 +166,7 @@
               </elementProp>
               <elementProp name="" elementType="Header">
                 <stringProp name="Header.name">token</stringProp>
-                <stringProp name="Header.value">eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYmYiOjE2OTAzNTQyMjgsIm1vYmlsZSI6IjEzMDAwMDAwMDAwIiwiaWQiOjE2NzYyNTg1NzM2MzE0OTIwOTYsImV4cCI6MTY5MDQ0MDYyOCwiaWF0IjoxNjkwMzU0MjI4fQ.Ept92bM9-lO6QnvkxC3l2SnzEvrS7-kPpSNa_hTUXu0</stringProp>
+                <stringProp name="Header.value">eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYmYiOjE2OTA0NDU2NTksIm1vYmlsZSI6IjEzMDAwMDAwMDAwIiwiaWQiOjE2NzYyNTg1NzM2MzE0OTIwOTYsImV4cCI6MTY5MDUzMjA1OSwiaWF0IjoxNjkwNDQ1NjU5fQ.ZA71lyJwmpBs7KPM4yc-0fTY03WPNwoWUe26dTC1WyY</stringProp>
               </elementProp>
             </collectionProp>
           </HeaderManager>
