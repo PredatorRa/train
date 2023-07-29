@@ -1,5 +1,6 @@
 package com.miker.train.business.controller;
 
+import cn.hutool.core.util.RandomUtil;
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.miker.train.business.service.TestService;
 import jakarta.annotation.Resource;
@@ -15,7 +16,10 @@ public class TestController {
     @SentinelResource("hello")
     @GetMapping("/hello")
     public String hello() throws InterruptedException {
-        testService.hello2();
+        int i = RandomUtil.randomInt(1, 10);
+        if (i <= 2) {
+            throw new RuntimeException("测试异常");
+        }
         return "Hello World! Business!";
     }
 
