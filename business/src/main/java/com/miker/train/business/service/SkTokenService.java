@@ -142,12 +142,12 @@ public class SkTokenService {
         if (skTokenCount != null) {
             LOG.info("缓存中有该车次令牌大闸的key：{}", skTokenCountKey);
             Long count = redisTemplate.opsForValue().decrement(skTokenCountKey, 1);
-            redisTemplate.expire(skTokenCountKey, 60, TimeUnit.SECONDS);
             if (count < 0L) {
                 LOG.error("获取令牌失败：{}", skTokenCountKey);
-                throw new BusinessException(BusinessExceptionEnum.CONFIRM_ORDER_SK_TOKEN_FAIL);
+                return false;
             } else {
                 LOG.info("获取令牌后，令牌余数：{}", count);
+                redisTemplate.expire(skTokenCountKey, 60, TimeUnit.SECONDS);
                 // 每获取5个令牌更新一次数据库
                 if (count % 5 == 0) {
                     skTokenMapperCust.decrease(date, trainCode, 5);
@@ -176,8 +176,9 @@ public class SkTokenService {
             Integer count = skToken.getCount() - 1;
             skToken.setCount(count);
             LOG.info("将该车次令牌大闸放入缓存中，key: {}， count: {}", skTokenCountKey, count);
+            // 不需要更新数据库，只要放缓存即可
             redisTemplate.opsForValue().set(skTokenCountKey, String.valueOf(count), 60, TimeUnit.SECONDS);
-            skTokenMapper.updateByPrimaryKey(skToken);
+//            skTokenMapper.updateByPrimaryKey(skToken);
             return true;
         }
 
