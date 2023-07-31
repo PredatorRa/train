@@ -15,7 +15,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.miker.train.business.domain.*;
 import com.miker.train.business.enums.ConfirmOrderStatusEnum;
-import com.miker.train.business.enums.LockKeyPreEnum;
+import com.miker.train.business.enums.RedisKeyPreEnum;
 import com.miker.train.business.enums.SeatColEnum;
 import com.miker.train.business.enums.SeatTypeEnum;
 import com.miker.train.business.req.ConfirmOrderTicketReq;
@@ -124,7 +124,7 @@ public class ConfirmOrderService {
         }
 
         // 购票
-        String lockKey = LockKeyPreEnum.CONFIRM_ORDER + "-" + DateUtil.formatDate(req.getDate()) + "-" + req.getTrainCode();
+        String lockKey = RedisKeyPreEnum.CONFIRM_ORDER + "-" + DateUtil.formatDate(req.getDate()) + "-" + req.getTrainCode();
         Boolean setIfAbsent = redisTemplate.opsForValue().setIfAbsent(lockKey, lockKey, 5, TimeUnit.SECONDS);
         if (Boolean.TRUE.equals(setIfAbsent)) {
             LOG.info("恭喜，抢到锁了！lockKey：{}", lockKey);

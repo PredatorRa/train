@@ -4,9 +4,9 @@
 
   <update id="decrease">
     update sk_token
-    set `count` = if (`count` &lt; 1, 0, `count` - 1)
+    set `count` = if(`count` &lt; #{decreaseCount}, 0, `count` - #{decreaseCount})
     where `date` = #{date}
-    and train_code = #{trainCode}
-    and `count` > 0
+      and train_code = #{trainCode}
+      and `count` > 0
   </update>
 </mapper>
