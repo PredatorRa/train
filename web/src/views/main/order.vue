@@ -334,7 +334,9 @@ export default defineComponent({
                 trainCode: dailyTrainTicket.trainCode,
                 start: dailyTrainTicket.start,
                 end: dailyTrainTicket.end,
-                tickets: tickets.value
+                tickets: tickets.value,
+                imageCodeToken: imageCodeToken.value,
+                imageCode: imageCode.value,
             }).then((response) => {
                 let data = response.data;
                 if (data.success) {
