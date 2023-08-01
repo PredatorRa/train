@@ -66,16 +66,9 @@ public class ConfirmOrderDoReq {
     @NotEmpty(message = "【车票】不能为空")
     private List<ConfirmOrderTicketReq> tickets;
 
-    @Override
-    public String toString() {
-        return "ConfirmOrderDoReq{" +
-                "memberId=" + memberId +
-                ", date=" + date +
-                ", trainCode='" + trainCode + '\'' +
-                ", start='" + start + '\'' +
-                ", end='" + end + '\'' +
-                ", dailyTrainTicketId=" + dailyTrainTicketId +
-                ", tickets=" + tickets +
-                '}';
-    }
+    /**
+     * 日志跟踪号
+     */
+    private String logId;
+
 }
