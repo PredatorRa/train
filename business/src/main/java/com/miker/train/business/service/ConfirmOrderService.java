@@ -10,7 +10,6 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.alibaba.csp.sentinel.slots.block.BlockException;
-import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.miker.train.business.domain.*;
@@ -18,19 +17,16 @@ import com.miker.train.business.enums.ConfirmOrderStatusEnum;
 import com.miker.train.business.enums.RedisKeyPreEnum;
 import com.miker.train.business.enums.SeatColEnum;
 import com.miker.train.business.enums.SeatTypeEnum;
+import com.miker.train.business.mapper.ConfirmOrderMapper;
+import com.miker.train.business.req.ConfirmOrderDoReq;
+import com.miker.train.business.req.ConfirmOrderQueryReq;
 import com.miker.train.business.req.ConfirmOrderTicketReq;
-import com.miker.train.common.context.LoginMemberContext;
+import com.miker.train.business.resp.ConfirmOrderQueryResp;
 import com.miker.train.common.exception.BusinessException;
 import com.miker.train.common.exception.BusinessExceptionEnum;
 import com.miker.train.common.resp.PageResp;
 import com.miker.train.common.util.SnowUtil;
-import com.miker.train.business.mapper.ConfirmOrderMapper;
-import com.miker.train.business.req.ConfirmOrderQueryReq;
-import com.miker.train.business.req.ConfirmOrderDoReq;
-import com.miker.train.business.resp.ConfirmOrderQueryResp;
 import jakarta.annotation.Resource;
-//import org.redisson.api.RLock;
-//import org.redisson.api.RedissonClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -114,17 +110,18 @@ public class ConfirmOrderService {
 
     @SentinelResource(value = "doConfirm", blockHandler = "doConfirmBlock")
     public void doConfirm(ConfirmOrderDoReq req) {
-        // 校验令牌余量
-        boolean validSkToken = skTokenService.validSkToken(req.getDate(), req.getTrainCode(), LoginMemberContext.getId());
-        if (validSkToken) {
-            LOG.info("令牌校验通过");
-        } else {
-            LOG.info("令牌校验不通过");
-            throw new BusinessException(BusinessExceptionEnum.CONFIRM_ORDER_SK_TOKEN_FAIL);
-        }
+//        // 校验令牌余量
+//        boolean validSkToken = skTokenService.validSkToken(req.getDate(), req.getTrainCode(), LoginMemberContext.getId());
+//        if (validSkToken) {
+//            LOG.info("令牌校验通过");
+//        } else {
+//            LOG.info("令牌校验不通过");
+//            throw new BusinessException(BusinessExceptionEnum.CONFIRM_ORDER_SK_TOKEN_FAIL);
+//        }
 
-        // 购票
+        // 获取分布式锁
         String lockKey = RedisKeyPreEnum.CONFIRM_ORDER + "-" + DateUtil.formatDate(req.getDate()) + "-" + req.getTrainCode();
+        // setIfAbsent就是对应redis的setnx
         Boolean setIfAbsent = redisTemplate.opsForValue().setIfAbsent(lockKey, lockKey, 5, TimeUnit.SECONDS);
         if (Boolean.TRUE.equals(setIfAbsent)) {
             LOG.info("恭喜，抢到锁了！lockKey：{}", lockKey);
@@ -165,21 +162,39 @@ public class ConfirmOrderService {
             String end = req.getEnd();
             List<ConfirmOrderTicketReq> tickets = req.getTickets();
 
-            // 保存确认订单表，状态初始
-            DateTime now = DateTime.now();
-            ConfirmOrder confirmOrder = new ConfirmOrder();
-            confirmOrder.setId(SnowUtil.getSnowflakeNextId());
-            confirmOrder.setCreateTime(now);
-            confirmOrder.setUpdateTime(now);
-            confirmOrder.setMemberId(LoginMemberContext.getId());
-            confirmOrder.setDate(date);
-            confirmOrder.setTrainCode(trainCode);
-            confirmOrder.setStart(start);
-            confirmOrder.setEnd(end);
-            confirmOrder.setDailyTrainTicketId(req.getDailyTrainTicketId());
-            confirmOrder.setStatus(ConfirmOrderStatusEnum.INIT.getCode());
-            confirmOrder.setTickets(JSON.toJSONString(tickets));
-            confirmOrderMapper.insert(confirmOrder);
+//            // 保存确认订单表，状态初始
+//            DateTime now = DateTime.now();
+//            ConfirmOrder confirmOrder = new ConfirmOrder();
+//            confirmOrder.setId(SnowUtil.getSnowflakeNextId());
+//            confirmOrder.setCreateTime(now);
+//            confirmOrder.setUpdateTime(now);
+//            confirmOrder.setMemberId(LoginMemberContext.getId());
+//            confirmOrder.setDate(date);
+//            confirmOrder.setTrainCode(trainCode);
+//            confirmOrder.setStart(start);
+//            confirmOrder.setEnd(end);
+//            confirmOrder.setDailyTrainTicketId(req.getDailyTrainTicketId());
+//            confirmOrder.setStatus(ConfirmOrderStatusEnum.INIT.getCode());
+//            confirmOrder.setTickets(JSON.toJSONString(tickets));
+//            confirmOrderMapper.insert(confirmOrder);
+
+            // 从数据库里查出订单
+            ConfirmOrderExample confirmOrderExample = new ConfirmOrderExample();
+            confirmOrderExample.setOrderByClause("id asc");
+            ConfirmOrderExample.Criteria criteria = confirmOrderExample.createCriteria();
+            criteria.andDateEqualTo(req.getDate())
+                    .andTrainCodeEqualTo(req.getTrainCode())
+                    .andMemberIdEqualTo(req.getMemberId())
+                    .andStatusEqualTo(ConfirmOrderStatusEnum.INIT.getCode());
+            List<ConfirmOrder> list = confirmOrderMapper.selectByExampleWithBLOBs(confirmOrderExample);
+            ConfirmOrder confirmOrder;
+            if (CollUtil.isEmpty(list)) {
+                LOG.info("找不到原始订单，结束");
+                return;
+            } else {
+                LOG.info("本次处理{}条确认订单", list.size());
+                confirmOrder = list.get(0);
+            }
 
             // 查出余票记录，需要得到真实的库存
             DailyTrainTicket dailyTrainTicket = dailyTrainTicketService.selectByUnique(date, trainCode, start, end);
@@ -273,8 +288,8 @@ public class ConfirmOrderService {
 //            LOG.error("购票异常", e);
         } finally {
             // try finally不能包含加锁的那段代码，否则加锁失败会走到finally里，从而释放别的线程的锁
-            LOG.info("购票流程结束，释放锁！lockKey：{}", lockKey);
-            redisTemplate.delete(lockKey);
+//            LOG.info("购票流程结束，释放锁！lockKey：{}", lockKey);
+//            redisTemplate.delete(lockKey);
 //            LOG.info("购票流程结束，释放锁！");
 //            if (null != lock && lock.isHeldByCurrentThread()) {
 //                lock.unlock();
