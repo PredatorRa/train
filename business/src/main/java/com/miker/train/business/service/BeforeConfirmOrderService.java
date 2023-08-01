@@ -3,13 +3,15 @@ package com.miker.train.business.service;
 import cn.hutool.core.date.DateUtil;
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.alibaba.csp.sentinel.slots.block.BlockException;
+import com.alibaba.fastjson.JSON;
 import com.miker.train.business.enums.RedisKeyPreEnum;
-import com.miker.train.business.mapper.ConfirmOrderMapper;
+import com.miker.train.business.enums.RocketMQTopicEnum;
 import com.miker.train.business.req.ConfirmOrderDoReq;
 import com.miker.train.common.context.LoginMemberContext;
 import com.miker.train.common.exception.BusinessException;
 import com.miker.train.common.exception.BusinessExceptionEnum;
 import jakarta.annotation.Resource;
+import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,26 +25,14 @@ public class BeforeConfirmOrderService {
 
     private static final Logger LOG = LoggerFactory.getLogger(BeforeConfirmOrderService.class);
 
-    @Resource
-    private ConfirmOrderMapper confirmOrderMapper;
-
-    @Resource
-    private DailyTrainTicketService dailyTrainTicketService;
-
-    @Resource
-    private DailyTrainCarriageService dailyTrainCarriageService;
-
-    @Resource
-    private DailyTrainSeatService dailyTrainSeatService;
-
-    @Resource
-    private AfterConfirmOrderService afterConfirmOrderService;
-
     @Autowired
     private StringRedisTemplate redisTemplate;
 
     @Autowired
     private SkTokenService skTokenService;
+
+    @Resource
+    public RocketMQTemplate rocketMQTemplate;
 
     @SentinelResource(value = "beforeDoConfirm", blockHandler = "beforeDoConfirmBlock")
     public void beforeDoConfirm(ConfirmOrderDoReq req) {
@@ -68,8 +58,11 @@ public class BeforeConfirmOrderService {
             throw new BusinessException(BusinessExceptionEnum.CONFIRM_ORDER_LOCK_FAIL);
         }
 
-        // 可以购票：TODO: 发送MQ，等待出票
-        LOG.info("准备发送MQ，等待出票");
+        // 发送MQ排队购票
+        String reqJson = JSON.toJSONString(req);
+        LOG.info("排队购票，发送mq开始，消息：{}", reqJson);
+        rocketMQTemplate.convertAndSend(RocketMQTopicEnum.CONFIRM_ORDER.getCode(), reqJson);
+        LOG.info("排队购票，发送mq结束");
 
     }
 
