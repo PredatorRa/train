@@ -288,8 +288,8 @@ public class ConfirmOrderService {
 //            LOG.error("购票异常", e);
         } finally {
             // try finally不能包含加锁的那段代码，否则加锁失败会走到finally里，从而释放别的线程的锁
-//            LOG.info("购票流程结束，释放锁！lockKey：{}", lockKey);
-//            redisTemplate.delete(lockKey);
+            LOG.info("购票流程结束，释放锁！lockKey：{}", lockKey);
+            redisTemplate.delete(lockKey);
 //            LOG.info("购票流程结束，释放锁！");
 //            if (null != lock && lock.isHeldByCurrentThread()) {
 //                lock.unlock();
