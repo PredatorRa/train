@@ -1,15 +1,12 @@
 package com.miker.train.business.service;
 
 import cn.hutool.core.date.DateTime;
-import cn.hutool.core.date.DateUtil;
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.alibaba.csp.sentinel.slots.block.BlockException;
 import com.alibaba.fastjson.JSON;
 import com.miker.train.business.domain.ConfirmOrder;
 import com.miker.train.business.dto.ConfirmOrderMQDto;
 import com.miker.train.business.enums.ConfirmOrderStatusEnum;
-import com.miker.train.business.enums.RedisKeyPreEnum;
-import com.miker.train.business.enums.RocketMQTopicEnum;
 import com.miker.train.business.mapper.ConfirmOrderMapper;
 import com.miker.train.business.req.ConfirmOrderDoReq;
 import com.miker.train.business.req.ConfirmOrderTicketReq;
@@ -18,17 +15,14 @@ import com.miker.train.common.exception.BusinessException;
 import com.miker.train.common.exception.BusinessExceptionEnum;
 import com.miker.train.common.util.SnowUtil;
 import jakarta.annotation.Resource;
-import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 @Service
 public class BeforeConfirmOrderService {
@@ -41,8 +35,11 @@ public class BeforeConfirmOrderService {
     @Autowired
     private SkTokenService skTokenService;
 
+//    @Resource
+//    public RocketMQTemplate rocketMQTemplate;
+
     @Resource
-    public RocketMQTemplate rocketMQTemplate;
+    private ConfirmOrderService confirmOrderService;
 
     @SentinelResource(value = "beforeDoConfirm", blockHandler = "beforeDoConfirmBlock")
     public Long beforeDoConfirm(ConfirmOrderDoReq req) {
@@ -85,9 +82,10 @@ public class BeforeConfirmOrderService {
         confirmOrderMQDto.setTrainCode(req.getTrainCode());
         confirmOrderMQDto.setLogId(MDC.get("LOG_ID"));
         String reqJson = JSON.toJSONString(confirmOrderMQDto);
-        LOG.info("排队购票，发送mq开始，消息：{}", reqJson);
-        rocketMQTemplate.convertAndSend(RocketMQTopicEnum.CONFIRM_ORDER.getCode(), reqJson);
-        LOG.info("排队购票，发送mq结束");
+//        LOG.info("排队购票，发送mq开始，消息：{}", reqJson);
+//        rocketMQTemplate.convertAndSend(RocketMQTopicEnum.CONFIRM_ORDER.getCode(), reqJson);
+//        LOG.info("排队购票，发送mq结束");
+        confirmOrderService.doConfirm(confirmOrderMQDto);
         return confirmOrder.getId();
     }
 
