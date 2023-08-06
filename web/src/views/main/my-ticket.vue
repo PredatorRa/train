@@ -16,14 +16,14 @@
       <template v-else-if="column.dataIndex === 'col'">
         <span v-for="item in SEAT_COL_ARRAY" :key="item.code">
           <span v-if="item.code === record.col && item.type === record.seatType">
-            {{item.desc}}
+            {{ item.desc }}
           </span>
         </span>
       </template>
       <template v-else-if="column.dataIndex === 'seatType'">
         <span v-for="item in SEAT_TYPE_ARRAY" :key="item.code">
           <span v-if="item.code === record.seatType">
-            {{item.desc}}
+            {{ item.desc }}
           </span>
         </span>
       </template>
@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import { defineComponent, ref, onMounted } from 'vue';
+import {defineComponent, ref, onMounted} from 'vue';
 import {notification} from "ant-design-vue";
 import axios from "axios";
 
@@ -69,61 +69,66 @@ export default defineComponent({
     });
     let loading = ref(false);
     const columns = [
-    {
-      title: '乘客姓名',
-      dataIndex: 'passengerName',
-      key: 'passengerName',
-    },
-    {
-      title: '日期',
-      dataIndex: 'date',
-      key: 'date',
-    },
-    {
-      title: '车次编号',
-      dataIndex: 'trainCode',
-      key: 'trainCode',
-    },
-    {
-      title: '箱序',
-      dataIndex: 'carriageIndex',
-      key: 'carriageIndex',
-    },
-    {
-      title: '排号',
-      dataIndex: 'row',
-      key: 'row',
-    },
-    {
-      title: '列号',
-      dataIndex: 'col',
-      key: 'col',
-    },
-    {
-      title: '出发站',
-      dataIndex: 'start',
-      key: 'start',
-    },
-    {
-      title: '出发时间',
-      dataIndex: 'startTime',
-      key: 'startTime',
-    },
-    {
-      title: '到达站',
-      dataIndex: 'end',
-      key: 'end',
-    },
-    {
-      title: '到站时间',
-      dataIndex: 'endTime',
-      key: 'endTime',
-    },
-    {
-      title: '座位类型',
-      dataIndex: 'seatType',
-      key: 'seatType',
-    },
+      {
+        title: '乘客姓名',
+        dataIndex: 'passengerName',
+        key: 'passengerName',
+      },
+      {
+        title: '日期',
+        dataIndex: 'trainDate',
+        key: 'trainDate',
+      },
+      {
+        title: '车次编号',
+        dataIndex: 'trainCode',
+        key: 'trainCode',
+      },
+      {
+        title: '箱序',
+        dataIndex: 'carriageIndex',
+        key: 'carriageIndex',
+      },
+      {
+        title: '排号',
+        dataIndex: 'seatRow',
+        key: 'seatRow',
+      },
+      {
+        title: '列号',
+        dataIndex: 'seatCol',
+        key: 'seatCol',
+      },
+      {
+        title: '出发站',
+        dataIndex: 'startStation',
+        key: 'startStation',
+      },
+      {
+        title: '出发时间',
+        dataIndex: 'startTime',
+        key: 'startTime',
+      },
+      {
+        title: '到达站',
+        dataIndex: 'endStation',
+        key: 'endStation',
+      },
+      {
+        title: '到站时间',
+        dataIndex: 'endTime',
+        key: 'endTime',
+      },
+      {
+        title: '座位类型',
+        dataIndex: 'seatType',
+        key: 'seatType',
+      },
+      {
+        title: '出票时间',
+        dataIndex: 'createTime',
+        key: 'createTime',
+      },
     ];
 
 
