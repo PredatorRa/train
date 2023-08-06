@@ -16,7 +16,7 @@
     <template #bodyCell="{ column, record }">
       <template v-if="column.dataIndex === 'operation'">
         <a-space>
-          <a-button type="primary" @click="toOrder(record)">预订</a-button>
+          <a-button type="primary" @click="toOrder(record)" :disabled="isExpire(record)">{{isExpire(record) ? "过期" : "预订"}}</a-button>
           <router-link :to="{
                         path: '/seat',
                         query: {
@@ -294,6 +294,19 @@ export default defineComponent({
       return current && (current <= dayjs().add(-1, 'day') || current > dayjs().add(14, 'day'));
     };
 
+    // 判断是否过期
+    const isExpire = (record) => {
+      // 标准时间：2000/01/01 00:00:00
+      let startDateTimeString = record.date.replace(/-/g, "/") + " " + record.startTime;
+      let startDateTime = new Date(startDateTimeString);
+
+      //当前时间
+      let now = new Date();
+
+      console.log(startDateTime)
+      return now.valueOf() >= startDateTime.valueOf();
+    };
+
     onMounted(() => {
       //  "|| {}"是常用技巧，可以避免空指针异常
       params.value = SessionStorage.get(SESSION_TICKET_PARAMS) || {};
@@ -319,7 +332,8 @@ export default defineComponent({
       toOrder,
       showStation,
       stations,
-      disabledDate
+      disabledDate,
+      isExpire
     };
   },
 });
