@@ -16,6 +16,19 @@
             <template v-if="column.dataIndex === 'operation'">
                 <a-space>
                     <a-button type="primary" @click="toOrder(record)">预订</a-button>
+                    <router-link :to="{
+                        path: '/seat',
+                        query: {
+                          date: record.date,
+                          trainCode: record.trainCode,
+                          start: record.start,
+                          startIndex: record.startIndex,
+                          end: record.end,
+                          endIndex: record.endIndex
+                        }
+                      }">
+                        <a-button type="primary">座位销售图</a-button>
+                    </router-link>
                     <a-button type="primary" @click="showStation(record)">途经车站</a-button>
                 </a-space>
             </template>
